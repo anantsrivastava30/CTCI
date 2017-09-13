@@ -160,7 +160,7 @@ class ChainedHashDict(object):
         return new
 
     def __getitem__(self, key):
-        h = self.hashfunc(key) % self._bin_count
+        h = int(self.hashfunc(key)) % self._bin_count
         bucket = self.list[h]
         for kv in bucket:
             if kv.item.key == key:
@@ -173,14 +173,14 @@ class ChainedHashDict(object):
     def __setitem__(self, key, value):
         if self.__contains__(key):
             raise Exception("List has the element!")
-        h = self.hashfunc(key) % self._bin_count
+        h = int(self.hashfunc(key)) % self._bin_count
         self.list[h].prepend(KeyValue(key, value))
         if self.load_factor > self._load_factor:
             print("Load factor exceeded!, proceed with rebuild")
 
     # deletes the key from the linked list
     def __delitem__(self, key):
-        h = self.hashfunc(key) % self._bin_count
+        h = int(self.hashfunc(key)) % self._bin_count
         bucket = self.list[h]
         current = bucket.head
         previous = None
@@ -203,7 +203,7 @@ class ChainedHashDict(object):
             return "Key not found.!"
 
     def __contains__(self, key):
-        h = self.hashfunc(key) % self._bin_count
+        h = int(self.hashfunc(key)) % self._bin_count
         bucket = self.list[h]
         for kv in bucket:
             if kv.item.key == key:
@@ -357,6 +357,12 @@ This class creates a Binary search Tree
 """
 
 
+def minimum(x):
+    while x.left is not None:
+        x = x.left
+    return x
+
+
 class BinarySearchTreeDict(object):
 
     def __init__(self, head=None):
@@ -402,9 +408,9 @@ class BinarySearchTreeDict(object):
                 yield elem
 
     def items(self):
-        list = self.inorder_keys(self.head)
+        lis = self.inorder_keys(self.head)
         print("Key Value Pairs in In-order form :")
-        for i in list:
+        for i in lis:
             print(i.data)
 
     def __getitem__(self, key):
@@ -414,6 +420,7 @@ class BinarySearchTreeDict(object):
             return "Tree is Empty!"
 
     def get(self, node, key):
+        value = False
         if key == node.data.key:
             return True
         elif key < node.data.key:
@@ -450,11 +457,6 @@ class BinarySearchTreeDict(object):
             else:
                 self.insert(node.right, new_node)
 
-    def minimum(self, x):
-        while x.left is not None:
-            x = x.left
-        return x
-
     # Transplants a node u to a node v
     def transplant(self, u, v):
         if u.parent is None:
@@ -475,7 +477,7 @@ class BinarySearchTreeDict(object):
             elif node.right is None:
                 self.transplant(node, node.left)
             else:
-                y = self.minimum(node.right)
+                y = minimum(node.right)
                 if y.parent is not node:
                     self.transplant(y, y.right)
                     y.right = node.right
@@ -493,6 +495,7 @@ class BinarySearchTreeDict(object):
             return "Tree is Empty!"
 
     def contains(self, node, key):
+        value = False
         if key == node.data.key:
             return node
         elif key < node.data.key:
@@ -514,9 +517,9 @@ class BinarySearchTreeDict(object):
     def display(self):
         # TODO: Print the keys using INORDER on one
         # line and PREORDER on the next
-        print("Inorder representation of keys : ", \
+        print("Inorder representation of keys : ",
             [i.data.key for i in self.inorder_keys(self.head)])
-        print("Pre-order representation of keys : ", \
+        print("Pre-order representation of keys : ",
             [i.data.key for i in self.preorder_keys(self.head)])
 
 """
@@ -589,24 +592,24 @@ def main():
           " ", e.__len__())
     e.__setitem__("dodo", "456-7963")
     print("--------------New Open Addressing Dictionary---------------")
-    f = OpenAddressHashDict()
-    f.__setitem__("wolber", "359-4787")
-    f.__setitem__("reblow", "akfj-askf")
-    f.__setitem__("qeblow", "khjg-kjbk")
-    f.__setitem__("alpha", "123-856")
-    f.__setitem__("fiat", "quan-tash")
-    f.__setitem__("mist", "mag-mist")
-    f.__setitem__("dodo", "456-7963")
-    f.__setitem__("ravage", "539-9692")
-    print(f.__getitem__("reblow"))
-    f.__delitem__("reblow")
-    print(f.__getitem__("reblow"))
-    f.display()
-    f.__setitem__("reblow", "akfj-askf")
-    print("Load factor before the rebuild :", f.load_factor)
-    f = f.rebuild(20)
-    f.display()
-    print("Load factor after the rebuild :", f.load_factor)
+    # f = OpenAddressHashDict()
+    # f.__setitem__("wolber", "359-4787")
+    # f.__setitem__("reblow", "akfj-askf")
+    # f.__setitem__("qeblow", "khjg-kjbk")
+    # f.__setitem__("alpha", "123-856")
+    # f.__setitem__("fiat", "quan-tash")
+    # f.__setitem__("mist", "mag-mist")
+    # f.__setitem__("dodo", "456-7963")
+    # f.__setitem__("ravage", "539-9692")
+    # print(f.__getitem__("reblow"))
+    # f.__delitem__("reblow")
+    # print(f.__getitem__("reblow"))
+    # f.display()
+    # f.__setitem__("reblow", "akfj-askf")
+    # print("Load factor before the rebuild :", f.load_factor)
+    # f = f.rebuild(20)
+    # f.display()
+    # print("Load factor after the rebuild :", f.load_factor)
 
     print("--------------New Binary Search Tree---------------------")
     a = BinarySearchTreeDict()
