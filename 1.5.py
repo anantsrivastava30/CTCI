@@ -1,5 +1,7 @@
 from sympy.physics.quantum.circuitplot import np
 
+# CTCI problem tells if two words are rotation invariant
+# example "hello world" and "world hello"
 
 def compressor(srr):
     c = srr[0]

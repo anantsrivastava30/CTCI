@@ -1,6 +1,7 @@
 import collections
 from bitarray import bitarray
 
+# CTCI problems
 
 def check_duplicate():
     f = open("duplicate string.txt", 'r')
